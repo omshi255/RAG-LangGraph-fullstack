@@ -1,0 +1,14 @@
+fastapi
+uvicorn
+python-dotenv
+groq
+cohere
+pinecone
+sentence-transformers
+rank-bm25
+langgraph
+langchain
+langchain-community
+pydantic
+httpx
+numpy

@@ -1,0 +1,102 @@
+{
+  "info": {
+    "name": "RAG Agent v2 - Pinecone",
+    "_postman_id": "rag-agent-v2",
+    "description": "Production RAG Agent API - Ingest docs, then query them",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "base_url", "value": "http://127.0.0.1:8000" }
+  ],
+  "item": [
+    {
+      "name": "1. Health Check",
+      "request": {
+        "method": "GET",
+        "url": "{{base_url}}/health",
+        "description": "Check if server is running"
+      }
+    },
+    {
+      "name": "2. Ingest Documents",
+      "request": {
+        "method": "POST",
+        "url": "{{base_url}}/api/ingest",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"texts\": [\n    \"LangGraph is a library for building stateful, multi-actor applications with LLMs. It extends LangChain with the ability to coordinate multiple chains across multiple computation steps.\",\n    \"Pinecone is a vector database that makes it easy to build high-performance vector search applications. It is fully managed and serverless.\",\n    \"Groq is an AI inference platform that provides extremely fast LLM inference using custom hardware called LPUs (Language Processing Units).\",\n    \"Retrieval Augmented Generation (RAG) is a technique that enhances LLM responses by retrieving relevant documents from a knowledge base before generating an answer.\",\n    \"Cohere Rerank is a neural model that takes a query and a list of documents and returns the documents sorted by relevance to the query.\",\n    \"FastAPI is a modern, fast web framework for building APIs with Python 3.7+ based on standard Python type hints.\",\n    \"BM25 is a bag-of-words retrieval function that ranks documents based on the query terms appearing in each document, regardless of their proximity.\",\n    \"Sentence Transformers is a Python framework for state-of-the-art sentence, text and image embeddings using transformer models.\"\n  ],\n  \"metadata\": [\n    {\"source\": \"langgraph-docs\"},\n    {\"source\": \"pinecone-docs\"},\n    {\"source\": \"groq-docs\"},\n    {\"source\": \"rag-paper\"},\n    {\"source\": \"cohere-docs\"},\n    {\"source\": \"fastapi-docs\"},\n    {\"source\": \"bm25-paper\"},\n    {\"source\": \"sbert-docs\"}\n  ]\n}"
+        },
+        "description": "Ingest text chunks into Pinecone vector store"
+      }
+    },
+    {
+      "name": "3. Query - What is LangGraph?",
+      "request": {
+        "method": "POST",
+        "url": "{{base_url}}/api/query",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"query\": \"What is LangGraph and what can it do?\",\n  \"top_k\": 3\n}"
+        }
+      }
+    },
+    {
+      "name": "4. Query - How does RAG work?",
+      "request": {
+        "method": "POST",
+        "url": "{{base_url}}/api/query",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"query\": \"How does Retrieval Augmented Generation work?\",\n  \"top_k\": 5\n}"
+        }
+      }
+    },
+    {
+      "name": "5. Query - What is Pinecone?",
+      "request": {
+        "method": "POST",
+        "url": "{{base_url}}/api/query",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"query\": \"Tell me about Pinecone vector database\",\n  \"top_k\": 3\n}"
+        }
+      }
+    },
+    {
+      "name": "6. Query - Cache Test (repeat query)",
+      "request": {
+        "method": "POST",
+        "url": "{{base_url}}/api/query",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"query\": \"What is LangGraph and what can it do?\",\n  \"top_k\": 3\n}"
+        },
+        "description": "Same query as #3 — should return cached:true"
+      }
+    },
+    {
+      "name": "7. Ingest File (PDF/DOCX)",
+      "request": {
+        "method": "POST",
+        "url": "{{base_url}}/api/ingest/file",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "file",
+              "type": "file",
+              "src": ""
+            }
+          ]
+        },
+        "description": "Ingest a PDF or DOCX file. Select a file when running the request."
+      }
+    }
+  ]
+}
