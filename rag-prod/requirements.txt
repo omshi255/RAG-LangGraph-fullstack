@@ -1,6 +1,12 @@
+# Core
 fastapi
 uvicorn
 python-dotenv
+pydantic
+httpx
+numpy
+
+# LLM / AI
 groq
 cohere
 pinecone
@@ -9,6 +15,19 @@ rank-bm25
 langgraph
 langchain
 langchain-community
-pydantic
-httpx
-numpy
+
+# Document parsers
+pymupdf
+python-docx
+python-pptx
+openpyxl
+
+# Data formats
+beautifulsoup4
+markdown
+lxml
+
+# eBook
+ebooklib
+
+# Optional extras (already stdlib: csv, json, xml, zipfile, tarfile, io)
