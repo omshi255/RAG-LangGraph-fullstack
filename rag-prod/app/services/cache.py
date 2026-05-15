@@ -5,7 +5,7 @@ from app.config import settings
 class SemanticCache:
     def __init__(self):
         self.store = {}
-        print("✅ Semantic cache ready (in-memory)")
+        print("Semantic cache ready (in-memory)")
 
     def _cosine(self, a, b):
         a, b = np.array(a), np.array(b)
@@ -15,7 +15,7 @@ class SemanticCache:
         q_vec = embedder.embed_one(query)
         for entry in self.store.values():
             if self._cosine(q_vec, entry["vector"]) >= settings.SIMILARITY_THRESHOLD:
-                print("✅ Cache HIT")
+                print("Cache HIT")
                 return entry["answer"]
         return None
 
